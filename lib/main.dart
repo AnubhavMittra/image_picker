@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +34,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  File? _image ;
+  final ImagePicker picker = ImagePicker();
+  chooseImage() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if(image != null) {
+      setState(() {
+        _image = File(image.path);
+      });
+    }
+  }
 
+  captureImage() async{
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    if(image != null) {
+      setState(() {
+        _image = File(image.path);
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,9 +62,38 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-
+            _image != null ?
+                Expanded(
+                    child: Image.file(_image!)
+                  )
+                : const Icon(Icons.image, size: 150,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          chooseImage();
+                        },
+                        child: const Text('Choose Image')
+                    )
+                ),
+                const SizedBox(
+                  width: 30,
+                ),
+                Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          captureImage();
+                        },
+                        child: const Text('Capture Image')
+                    )
+                )
+              ],
+            )
           ],
         ),
       ),
