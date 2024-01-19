@@ -1,4 +1,4 @@
-name: image_picker
+name: image_picker_proj
 description: "A Flutter project that resembles the functionality of image picker feature"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -13,6 +13,7 @@ dependencies:
 
 
   cupertino_icons: ^1.0.2
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
